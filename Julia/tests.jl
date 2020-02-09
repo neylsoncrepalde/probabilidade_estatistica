@@ -36,16 +36,23 @@ x + x # Adição elemento a elemento
 x .* y # Multiplicação elemento a elemento
 x ./ y # Divisão elemento a elemento
 
+# Tipos de variáveis
+typeof(3) # Int64
+typeof(3.0) # Float64
+typeof('b') # Char - um caracter apenas
+typeof("Neylson") # String - Um texto
+typeof(true)      # Bool - booleano ou lógico
+A = [1 2 3 4; 5 6 7 8; 9 10 11 12]
+typeof(A)         # Array (vetores ou matrizes)
 
 # Matrizes
-A = ones((4,4))
+B = zeros((4,4))  # Cria uma matriz vazia de zeros, 4x4
 
   
-A[14] = 2     # Define posição 14
-A[9] = 15     # Define posição 9
-
-A[2,3] = 10   # Define linha 2, coluna 3
-A
+B[14] = 2     # Define posição 14
+B[9] = 15     # Define posição 9
+B[2,3] = 10   # Define linha 2, coluna 3
+B
 
 
 
