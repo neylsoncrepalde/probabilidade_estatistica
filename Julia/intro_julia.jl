@@ -54,6 +54,14 @@ B[9] = 15     # Define posição 9
 B[2,3] = 10   # Define linha 2, coluna 3
 B
 
+# Cria uma matriz com valores definidos
+C = reshape(collect(1:24), 4, 6)
+
+D = reshape(collect(21:44), 6, 4)
+
+# Multiplicação de matrizes
+C * D 
+
 #### Funções, condicionais e controle de fluxo
 # Em Julia, blocos de condicionais if, loops e funções precisam ser encerrados com end
 
@@ -96,7 +104,7 @@ function media(x; w=nothing)
         if length(x) != length(w)
             error("x e w precisam ser do mesmo tamanho")
         else
-            new_x = x .* w
+            new_x = x .* w      # Tem que ter ponto pra fazer a multiplicação vetorial
             return sum(new_x) / sum(w)
         end
     end
@@ -116,6 +124,28 @@ using Test
 @test media([4,5,6,7,8], w=[1,1,.5,.5,.2]) == 5.34375
 @test_throws MethodError media([4,5,6,7,8], [1,2,3])
 
+#-----------------------------------------------------
+#### Trabalhando com bancos de dados ####
+# Vamos importar um banco de dados online para brincar
+# para isso, alguns pacotes se fazem necessários
+using HTTP, DataFrames, Statistics, Plots, StatsKit, CSV, DataFramesMeta
 
+# Lendo o banco de dados iris direto da internet
+url = "https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/639388c2cbc2120a14dcf466e85730eb8be498bb/iris.csv"
+iris = DataFrame(CSV.File(IOBuffer(HTTP.get(url).body)))
 
+# Estatísticas descritivas de iris
+describe(iris)
+
+# Calcula média para todas as colunas
+mapcols(x -> mean(x), iris[:, [:sepal_length, :sepal_width, :petal_length, :petal_width]])
+
+# Calcula média para as colunas por grupo de espécie usando sintaxe familiar ao tidyverse do R
+@linq iris |>
+    by(:species, 
+        mean_sp = mean(:sepal_length), 
+        mean_sw = mean(:sepal_width),
+        mean_pl = mean(:petal_length),
+        mean_pw = mean(:petal_length)) |>
+    orderby(-:mean_sp)
 
