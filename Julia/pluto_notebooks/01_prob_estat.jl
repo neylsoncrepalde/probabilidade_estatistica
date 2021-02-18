@@ -195,7 +195,49 @@ moda(numeros2)
 md"
 **Quartis**: Os quartis são valores que dividem o conjunto ordenado de dados em partes iguais. O primeiro quartil representa 25% dos dados, o terceiro quartil representa 75% dos dados (o que seria o segundo quartil, representando 50% dos dados é a mediana).
 
+Seja $n$ igual ao número de elementos no conjunto, calculamos $\frac{j(n+1)}{4}$, para $j = 1, 2$ e $3$. Assim $Q_k$ será sempre um número compreendido no intervalo $X_k$ e $X_{k+1}$ onde $k$ é o maior inteiro menor ou igual a $\frac{j(n+1)}{4}$ e será calculado da seguinte forma:
 
+$$Q_j = X_k + \left( \frac{j(n+1)}{4} - k \right) (X_{k+1} - X_k)$$
+
+#### Exemplo
+
+Calcule os quartis para a amostra $\{6, 47, 49, 15, 42, 41, 7, 39, 43, 40, 36\}$.
+
+Na mão:
+
+**Vetor ordenado** = {7, 6, 15, 36, 39, 40, 41, 42, 43, 47, 49}
+
+- 1º quartil = 15
+- Mediana = 40
+- 3º quartil = 43
+
+"
+
+# ╔═╡ 975dd4fc-718a-11eb-3ffd-67dd8ff81607
+# Implementando uma função em Julia para cálculo dos quartis
+function quartis(x)
+    x1 = sort(x)
+    n = length(x)
+    q0 = minimum(x)
+    q1 = x1[round(Int, 0.25*(n+1))]
+    q2 = mediana(x)
+    q3 = x1[round(Int, 0.75*(n+1))]
+    q4 = maximum(x)
+    res = [q0, q1, q2, q3, q4]
+    return res
+end
+
+# ╔═╡ 9d530c10-718a-11eb-0b02-0d5adb299f99
+begin
+	vetor = [6, 47, 49, 15, 42, 41, 7, 39, 43, 40, 36]
+	quartis(vetor)
+end
+
+# ╔═╡ a5990c12-718a-11eb-2ddd-21878d0fb2aa
+md"
+## Exercícios
+
+Stevenson (1981, p. 24), exercícios 1, 2 e 3.
 "
 
 # ╔═╡ Cell order:
@@ -222,4 +264,7 @@ md"
 # ╠═d42bafca-7177-11eb-26aa-bf23d8685f3f
 # ╠═d9bf90dc-7177-11eb-34b0-7bc55fddb841
 # ╠═ecec1a40-7177-11eb-3b9b-e9f1dd8b1c22
-# ╠═fbd2aace-7177-11eb-0e1f-6d6359fdd3dc
+# ╟─fbd2aace-7177-11eb-0e1f-6d6359fdd3dc
+# ╠═975dd4fc-718a-11eb-3ffd-67dd8ff81607
+# ╠═9d530c10-718a-11eb-0b02-0d5adb299f99
+# ╟─a5990c12-718a-11eb-2ddd-21878d0fb2aa
